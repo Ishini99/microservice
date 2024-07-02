@@ -1,4 +1,4 @@
-package com.shoppingApplication.inverntary_service;
+package com.shoppingApplication.inventory_service;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
