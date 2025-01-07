@@ -16,10 +16,8 @@ import java.util.List;
 @AllArgsConstructor
 public class Order {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
-    private String orderNumber;
-    @OneToMany(cascade = CascadeType.ALL)
-    private List<OrderLineItems>orderLineItemsList;
-
+    private int id;
+    private int itemId;
+    private String orderDate;
+    private int amount;
 }
