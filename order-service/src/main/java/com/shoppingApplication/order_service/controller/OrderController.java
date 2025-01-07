@@ -1,11 +1,6 @@
-gpackage com.shoppingApplication.order_service.controller;
+package com.shoppingApplication.order_service.controller;
 
-import com.shoppingApplication.order_service.dto.OrderRequest;
-import com.shoppingApplication.order_service.repository.OrderRepository;
-import com.shoppingApplication.order_service.service.OrderService;
-import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.*;
+
 
 @RestController
 @RequestMapping("api/v1")

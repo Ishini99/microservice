@@ -7,7 +7,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class OrderServiceApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(OrderServiceApplication.class, args);
+		SpringApplication.run(OrderApplication.class, args);
 	}
-
+	@Bean
+	public ModelMapper modelMapper() {
+		return new ModelMapper();
+	}
 }
