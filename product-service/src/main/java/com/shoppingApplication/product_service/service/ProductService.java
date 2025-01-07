@@ -1,46 +1,49 @@
 package com.shoppingApplication.product_service.service;
 
-import com.shoppingApplication.product_service.dto.ProductRequest;
-import com.shoppingApplication.product_service.dto.ProductResponse;
+import com.shoppingApplication.product_service.dto.ProductDTO;
 import com.shoppingApplication.product_service.model.Product;
 import com.shoppingApplication.product_service.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeToken;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 @Slf4j
 public class ProductService {
-    private final ProductRepository productRepository;
+    @Autowired
+    private ProductRepository productRepo;
 
-    public void createProduct(ProductRequest productRequest){
-        Product product = Product.builder()
-                .name(productRequest.getName())
-                .description(productRequest.getDescription())
-                .price(productRequest.getPrice())
-                .build();
+    @Autowired
+    private ModelMapper modelMapper;
 
-        productRepository.save(product);
-        log.info("Product {} is saved successfully", product.getId());
+    public List<ProductDTO> getAllProducts() {
+        List<Product>productList = productRepo.findAll();
+        return modelMapper.map(productList, new TypeToken<List<ProductDTO>>(){}.getType());
     }
 
-    public List<ProductResponse> getAllProducts(){
-        List<Product> products = productRepository.findAll();
-        return products.stream()
-                .map(this::mapToProductResponse)
-                .toList();
+    public ProductDTO saveProduct(ProductDTO productDTO) {
+        productRepo.save(modelMapper.map(productDTO, Product.class));
+        return productDTO;
     }
 
-    private ProductResponse mapToProductResponse(Product product){
-        return ProductResponse.builder()
-                .id(product.getId())
-                .name(product.getName())
-                .description(product.getDescription())
-                .price(product.getPrice())
-                .build();
+    public ProductDTO updateProduct(ProductDTO productDTO) {
+        productRepo.save(modelMapper.map(productDTO, Product.class));
+        return productDTO;
+    }
+
+    public String deleteProduct(Integer productId) {
+        productRepo.deleteById(productId);
+        return "Product deleted";
+    }
+
+    public ProductDTO getProductById(Integer productId) {
+        Product product = productRepo.getProductById(productId);
+        return modelMapper.map(product, ProductDTO.class);
     }
 }
