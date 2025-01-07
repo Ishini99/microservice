@@ -13,6 +13,7 @@ import java.util.List;
 @NoArgsConstructor
 
 
-public class OrderRequest {
-    private List<OrderLineItemsDto> orderLineItemsDtoList;
+public class OrderEventDTO {
+    private String message;
+    private String status;
 }
