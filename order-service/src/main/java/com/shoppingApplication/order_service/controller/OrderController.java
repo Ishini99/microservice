@@ -1,6 +1,11 @@
 package com.shoppingApplication.order_service.controller;
 
 
+import com.shoppingApplication.order_service.dto.OrderDTO;
+import com.shoppingApplication.order_service.dto.OrderEventDTO;
+import com.shoppingApplication.order_service.service.OrderService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("api/v1")
@@ -10,7 +15,19 @@ public class OrderController {
     private OrderService orderService;
 
     @Autowired
-    private OrderProducer orderProducer;    @PostMapping("/addorder")
+//    private OrderProducer orderProducer;
+
+    @GetMapping("/getorders")
+    public List<OrderDTO> getOrders() {
+        return orderService.getAllOrders();
+    }
+
+    @GetMapping("/order/{orderId}")
+    public OrderDTO getOrderById(@PathVariable Integer orderId) {
+        return orderService.getOrderById(orderId);
+    }
+
+    @PostMapping("/addorder")
     public OrderResponse saveOrder(@RequestBody OrderDTO orderDTO) {
         OrderEventDTO orderEventDTO = new OrderEventDTO();
         orderEventDTO.setMessage("Order is committed");
@@ -18,15 +35,6 @@ public class OrderController {
         orderProducer.sendMessage(orderEventDTO);
 
         return orderService.saveOrder(orderDTO);
-    }
-    @GetMapping("/getorders")
-    public List<OrderDTO> getOrders() {
-        return orderService.getAllOrders();
-    } 
-    
-    @GetMapping("/order/{orderId}")
-    public OrderDTO getOrderById(@PathVariable Integer orderId) {
-        return orderService.getOrderById(orderId);
     }
 
     @PutMapping("/updateorder")
